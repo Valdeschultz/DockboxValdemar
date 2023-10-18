@@ -1,4 +1,5 @@
 // LoginScreen.js
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,7 +27,8 @@ const LoginScreen = () => {
 
       if (authenticatedUser) {
         alert('Login successful!');
-        // Implement navigation to your app's main screen here
+        navigation.navigate ('Locations');
+
       } else {
         alert('Invalid credentials. Please try again.');
       }

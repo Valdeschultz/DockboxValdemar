@@ -1,0 +1,20 @@
+{
+    "locations": [
+        {
+            "name": "Test Location 1",
+            "address": "123 Main St",
+            "city": "Anytown",
+            "Products": "CA",
+            "country": "USA",
+            "Price": "50"
+        },
+        {
+            "name": "Test Location 2",
+            "address": "456 Elm St",
+            "city": "Othertown",
+            "Products": "NY",
+            "country": "USA",
+            "Price": "100"
+        }
+    ]
+}

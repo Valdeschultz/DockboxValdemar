@@ -1,60 +1,38 @@
-// LocationsScreen.js
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Table, Row, Rows } from 'react-native-table-component';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+const copenhagenCoordinates = {
+  latitude: 55.6761,
+  longitude: 12.5683,
+};
 
 const LocationsScreen = () => {
-  const [locations, setLocations] = useState([]);
-  const [tableHead, setTableHead] = useState([
-    'Name',
-    'Address',
-    'City',
-    'Products',
-    'Country',
-  ]);
-  const [tableData, setTableData] = useState([]);
-
-  useEffect(() => {
-    // Fetch data from Locations.json file and update the state
-    const fetchData = async () => {
-      try {
-        const response = await fetch('../Locations.json'); // Adjust the path accordingly
-        const data = await response.json();
-        setLocations(data);
-
-        // Assuming your JSON structure is an array of objects with the specified attributes
-        const tableDataArray = data.map((item) => [
-          item.Name,
-          item.Address,
-          item.City,
-          item.Products,
-          item.Country,
-        ]);
-        setTableData(tableDataArray);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
   return (
     <View style={styles.container}>
-      <Text>Locations</Text>
-      <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
-        <Row data={tableHead} style={styles.head} textStyle={styles.text} />
-        <Rows data={tableData} textStyle={styles.text} />
-      </Table>
+      <MapView style={styles.map} initialRegion={{
+        ...copenhagenCoordinates,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }}>
+        <Marker coordinate={copenhagenCoordinates} title="Copenhagen" />
+      </MapView>
     </View>
   );
 };
 
+//styles for the map
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-  head: { height: 40, backgroundColor: '#f1f8ff' },
-  text: { margin: 6 },
+  container: {
+    flex: 1,
+  alignItems: 'center',
+    justifyContent: 'center',
+  backgroundColor: '#f2f2f2',
+  },
+  map: {
+    width: '100%',
+    height: '100%',
+  },
 });
 
 export default LocationsScreen;

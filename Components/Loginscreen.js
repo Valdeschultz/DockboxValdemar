@@ -1,58 +1,56 @@
-// LoginScreen.js
-
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen = () => {
-  const [username, setUsername] = useState('');
+
+const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [user, setUser] = useState(null);
 
-  const handleLogin = async () => {
-    if (username.trim() === '' || password.trim() === '') {
-      alert('Username and password are required.');
-      return;
-    }
-
-    try {
-      const user = { username, password };
-
-      const existingUsers = JSON.parse(
-        (await AsyncStorage.getItem('users')) || '[]'
-      );
-
-      const authenticatedUser = existingUsers.find(
-        (u) => u.username === user.username && u.password === user.password
-      );
-
-      if (authenticatedUser) {
-        alert('Login successful!');
-        navigation.navigate ('Locations');
-
-      } else {
-        alert('Invalid credentials. Please try again.');
+  useEffect(() => {
+    // Fetch user data from AsyncStorage when the component mounts
+    async function fetchUserData() {
+      try {
+        const userData = await AsyncStorage.getItem('user');
+        if (userData) {
+          setUser(JSON.parse(userData));
+        }
+      } catch (error) {
+        console.error('Error fetching user data: ', error);
       }
-    } catch (error) {
-      console.error('Error checking login: ', error);
     }
 
-    // Clear input fields
-    setUsername('');
-    setPassword('');
+    fetchUserData();
+  }, []);
+
+  const handleLogin = () => {
+    if (user) {
+      // Check if the provided email and password match the stored user data
+      if (user.email === email && user.password === password) {
+        // Credentials are correct, you can redirect to another screen or perform any desired action.
+        console.log('Login successful');
+        navigation.navigate('LocationsScreen')
+      } else {
+        console.log('Invalid credentials');
+      }
+    } else {
+      console.log('User data not found');
+    }
   };
 
   return (
     <View>
       <Text>Login</Text>
       <TextInput
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="Email"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         placeholder="Password"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(text) => setPassword(text)}
         secureTextEntry
       />
       <Button title="Login" onPress={handleLogin} />

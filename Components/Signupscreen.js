@@ -1,64 +1,51 @@
-// SignUpScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SignUpScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+const SignupScreen = ({ navigation }) => {
+  const [username, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignUp = async () => {
-    if (username.trim() === '' || password.trim() === '') {
-      alert('Username and password are required.');
-      return;
-    }
-
+  const handleSignup = async () => {
     try {
-      const user = { username, password };
+      // Create a user object with the collected data
+      const user = { username, email, password };
 
-      // Retrieve existing user data or initialize with an empty array
-      const existingUsers = JSON.parse(
-        (await AsyncStorage.getItem('users')) || '[]'
-      );
+      // Store user data in AsyncStorage
+      await AsyncStorage.setItem('user', JSON.stringify(user));
 
-      // Check if the username is already taken
-      if (existingUsers.find((u) => u.username === user.username)) {
-        alert('Username is already taken.');
-        return;
-      }
+      console.log(user)
 
-      existingUsers.push(user);
-      await AsyncStorage.setItem('users', JSON.stringify(existingUsers));
-      alert('User registered successfully!');
+      // Redirect to another screen (e.g., the login screen)
+      navigation.navigate('LoginScreen');
     } catch (error) {
       console.error('Error saving user data: ', error);
     }
-
-    // Clear input fields
-    setUsername('');
-    setPassword('');
-
-    // Navigate to the login screen
-    navigation.navigate('Login');
   };
 
   return (
     <View>
       <Text>Sign Up</Text>
       <TextInput
-        placeholder="Username"
+        placeholder="Name"
         value={username}
-        onChangeText={setUsername}
+        onChangeText={(text) => setUserName(text)}
+      />
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         placeholder="Password"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(text) => setPassword(text)}
         secureTextEntry
       />
-      <Button title="Sign Up" onPress={handleSignUp} />
+      <Button title="Sign Up" onPress={handleSignup} />
     </View>
   );
 };
 
-export default SignUpScreen;
+export default SignupScreen;

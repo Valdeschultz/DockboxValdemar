@@ -2,19 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//initiere login viewt
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Fetch user data from AsyncStorage when the component mounts
+    //fetcher user data fra objektet "users"
     async function fetchUserData() {
       try {
         const userData = await AsyncStorage.getItem('user');
         if (userData) {
           setUser(JSON.parse(userData));
         }
+        //fanger mulige fejlkoder og sender den til konsol
       } catch (error) {
         console.error('Error fetching user data: ', error);
       }
@@ -23,23 +25,24 @@ const LoginScreen = ({ navigation }) => {
     fetchUserData();
   }, []);
 
-  // Handle user login functionality
+  //Login funktionalitet
   const handleLogin = () => {
     if (user) {
-      // Check if the provided email and password match the stored user data
+      // tjekker om de indtastede oplysninger matcher en bruger i systemet 
       if (user.email === email && user.password === password) {
         // Credentials are correct, you can redirect to another screen or perform any desired action.
         console.log('Login successful');
         Alert.alert('Login successful ')
         navigation.navigate('LocationsScreen');
       } else {
+        //hvis data ikke matcher en bruger sendes der en error besked til brugeren
         Alert.alert('Wrong username or password, try again')
       }
     } else {
       console.log('User data not found');
     }
   };
-
+//Opretter inputfelterne så brugeren kan indsætte deres oplysninger
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
@@ -61,6 +64,7 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
+//lokal styling til login skærmen
 const styles = StyleSheet.create({
   container: {
     flex: 1,

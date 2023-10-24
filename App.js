@@ -9,12 +9,13 @@ import LocationsScreen from './Components/Locations';
 import Weather from './Components/Weather';
 import ProductsScreen from './Components/Products';
 
-//create a stack navigator
+//laver min stacknavigator
 const Stack = createNativeStackNavigator();
 
-//create a navigation container with a stack navigator to hold all views
+//Initiere min app og beskriver alle views samt 
 const App = () => {
   return (
+    //Brugeren starter på signup screen
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignUpScreen">
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
@@ -27,4 +28,5 @@ const App = () => {
   );
 };
 
+//exportere app
 export default App;

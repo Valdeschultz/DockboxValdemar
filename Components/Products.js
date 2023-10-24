@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 const ProductsScreen = () => {
-  // Define an array of products
+ //definere et array af produkter som kan vises til brugeren
   const products = [
     {
       id: '1',
@@ -25,9 +25,8 @@ const ProductsScreen = () => {
       brand: 'Watery',
       type: 'Paddleboard',
     },
-    // Add more products as needed
   ];
-
+//retunere arrayet "Products" og mapper det for visning til brugeren    
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Box1 Products</Text>
@@ -49,6 +48,7 @@ const ProductsScreen = () => {
   );
 };
 
+//styling for tabllen
 const styles = StyleSheet.create({
   container: {
     flex: 1,

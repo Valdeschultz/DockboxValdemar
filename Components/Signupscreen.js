@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//laver navigation og objektet Users til at holde på det indtastede data fra brugeren
 const SignupScreen = ({ navigation }) => {
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+//signup funktionalitet, tager det inputtede data og laver objekt users med atributterne Name Email Password
   const handleSignup = async () => {
     try {
       const user = { username, email, password };
@@ -14,13 +16,13 @@ const SignupScreen = ({ navigation }) => {
       console.log(user)
       Alert.alert('Signup sucessfull')
       navigation.navigate('LoginScreen');
-      
+      //sender error til brugeren og console hvis der går noget galt
     } catch (error) {
       Alert.alert('Error saving user data, try again')
       console.error('Error saving user data: ', error);
     }
   };
-
+//laver text felter til brugeren så signup er muligt
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
@@ -48,7 +50,7 @@ const SignupScreen = ({ navigation }) => {
     </View>
   );
 };
-
+//lokal styling for signup viewt
 const styles = StyleSheet.create({
   container: {
     flex: 1,

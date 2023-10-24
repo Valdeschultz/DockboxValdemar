@@ -20,11 +20,11 @@ const LocationsScreen = () => {
   const handleNavigateToWeather = () => {
     navigation.navigate('WeatherScreen');
   };
-
+//navigation til produkt siden
   const handleNavigateToProducts = () => {
-    navigation.navigate('ProductsScreen'); // navigation to the Products component
+    navigation.navigate('ProductsScreen');
   };
-
+//indsætter markør for lokationen af Box1 og gør man kan trykke for at se indholdet af boxen samt Vejret for københavn
   return (
     <View style={styles.container}>
       <MapView style={styles.map} initialRegion={{
@@ -43,7 +43,8 @@ const LocationsScreen = () => {
     </View>
   );
 };
-//style sheet for this component
+
+//lokal styling for kort, Box1 knappen og vejr knap
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -7,25 +7,30 @@ const WeatherScreen = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  //insert egen API key
   useEffect(() => {
     const apiKey = 'e9e2d96b8d5f811d21dc205b48ebaed6';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Copenhagen&appid=${apiKey}`;
-//useing libary axious to make api call
+
+//Bruger axios bibloteket til at sende en HTTP request til API'en
     axios
       .get(apiUrl)
       .then(response => {
         setWeatherData(response.data);
         setLoading(false);
       })
+      //sender error til brugeren hvis apien ikke retunere noget data.
       .catch(error => {
         console.error('Error fetching weather data:', error);
         setLoading(false);
       });
   }, []);
-//inserting data for user to see on screen
+
+//Viser og formatere dataen fra API for læselighed
   return (
     <View style={styles.container}>
       {loading ? (
+        //viser brugeren at der loades data fra apien
         <ActivityIndicator size="large" color="#0000ff" />
       ) : weatherData ? (
         <View>
@@ -40,6 +45,7 @@ const WeatherScreen = () => {
   );
 };
 
+//lokal styling for vejr viewet
 const styles = StyleSheet.create({
   container: {
     flex: 1,

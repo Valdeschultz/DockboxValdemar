@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import axios from 'axios';
 
 //fetching weather data functionality
@@ -7,7 +7,7 @@ const WeatherScreen = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  //insert egen API key
+  //opretter variable for API key og api adresse
   useEffect(() => {
     const apiKey = 'e9e2d96b8d5f811d21dc205b48ebaed6';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Copenhagen&appid=${apiKey}`;
@@ -22,6 +22,7 @@ const WeatherScreen = () => {
       //sender error til brugeren hvis apien ikke retunere noget data.
       .catch(error => {
         console.error('Error fetching weather data:', error);
+        Alert.alert('Something went wrong, try again')
         setLoading(false);
       });
   }, []);
@@ -30,7 +31,7 @@ const WeatherScreen = () => {
   return (
     <View style={styles.container}>
       {loading ? (
-        //viser brugeren at der loades data fra apien
+        //viser brugeren at der loades data fra apien, og opsætter data fra API
         <ActivityIndicator size="large" color="#0000ff" />
       ) : weatherData ? (
         <View>

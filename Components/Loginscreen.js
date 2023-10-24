@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -24,15 +23,17 @@ const LoginScreen = ({ navigation }) => {
     fetchUserData();
   }, []);
 
+  // Handle user login functionality
   const handleLogin = () => {
     if (user) {
       // Check if the provided email and password match the stored user data
       if (user.email === email && user.password === password) {
         // Credentials are correct, you can redirect to another screen or perform any desired action.
         console.log('Login successful');
-        navigation.navigate('LocationsScreen')
+        Alert.alert('Login successful ')
+        navigation.navigate('LocationsScreen');
       } else {
-        console.log('Invalid credentials');
+        Alert.alert('Wrong username or password, try again')
       }
     } else {
       console.log('User data not found');
@@ -40,14 +41,16 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
-      <Text>Login</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Login</Text>
       <TextInput
+        style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
       <TextInput
+        style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={(text) => setPassword(text)}
@@ -57,5 +60,26 @@ const LoginScreen = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-top',
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  input: {
+    width: '80%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 10,
+  },
+});
 
 export default LoginScreen;
